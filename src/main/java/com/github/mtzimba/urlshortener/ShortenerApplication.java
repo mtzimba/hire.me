@@ -1,13 +1,13 @@
-package com.github.mtzimba;
+package com.github.mtzimba.urlshortener;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShortApplication {
+public class ShortenerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShortApplication.class, args);
+		SpringApplication.run(ShortenerApplication.class, args);
 	}
 
 }
