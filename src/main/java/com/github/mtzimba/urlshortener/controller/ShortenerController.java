@@ -3,11 +3,12 @@ package com.github.mtzimba.urlshortener.controller;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +34,9 @@ public class ShortenerController {
 
 	final static Logger LOG = LoggerFactory.getLogger(ShortenerController.class);
 	
-	private HashMap<String, String> repositorio = new HashMap<>();
-
+	@Autowired
+	private RedisTemplate<String, String> redisTemplate;
+	
 	@PutMapping("create")
 	public ResponseEntity<?> shorten(@RequestParam(value = "url") String url,
 			@RequestParam(value = "CUSTOM_ALIAS", required = false) Optional<String> customAlias,
@@ -47,7 +49,7 @@ public class ShortenerController {
 		if (customAlias.isPresent()) {
 			alias = customAlias.get();
 			// Validar se já existe
-			if (repositorio.containsKey(alias)) {
+			if (redisTemplate.hasKey(alias)) {
 				return ResponseEntity.badRequest().body(new ResponseErrorDto(alias, ErroEnum.CUSTOM_ALIAS_ALREADY_EXISTS));
 			}
 		} else {
@@ -56,7 +58,7 @@ public class ShortenerController {
 		LOG.info(alias);
 		
 		// Salvar na base
-		repositorio.put(alias, url);
+		redisTemplate.opsForValue().set(alias, url);
 
 		URI uri = uriBuilder.path("/u/{alias}").buildAndExpand(alias).toUri();
 		return ResponseEntity.created(uri).body(new ResponseDto(alias, uri.toString(), 
@@ -66,11 +68,17 @@ public class ShortenerController {
 	@GetMapping("u/{alias}")
 	public ResponseEntity<?> retrieve(@PathVariable("alias") String alias) {
 		
-		if (!repositorio.containsKey(alias)) {
+		if (!redisTemplate.hasKey(alias)) {
 			return ResponseEntity.notFound().build();
-		}
+		} else 
 		
-		return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(repositorio.get(alias))).build();
+		redisTemplate.opsForValue().increment("count_"+alias);
+		return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(redisTemplate.opsForValue().get(alias))).build();
+	}
+	
+	@GetMapping("u/")
+	public ResponseEntity<?> topTen() {
+		return ResponseEntity.ok().body(redisTemplate.hasKey("count_*"));
 	}
 	
 }

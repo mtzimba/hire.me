@@ -1,18 +1,19 @@
 package com.github.mtzimba.urlshortener.controller.dto;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResponseDto {
 
 	private String alias;
 	private String url;
-	private List<StatisticsDto> statistics;
+	private Map<String, String> statistics = new HashMap<>();
 	
 	public ResponseDto(String alias, String url, StatisticsDto... statistics) {
 		this.alias = alias;
 		this.url = url;
-		this.statistics = Arrays.asList(statistics);
+		Arrays.asList(statistics).forEach(a -> this.statistics.put(a.getName(), a.getValue()));
 	}
 
 	public String getAlias() {
@@ -23,7 +24,7 @@ public class ResponseDto {
 		return url;
 	}
 
-	public List<StatisticsDto> getStatistics() {
+	public Map<String, String> getStatistics() {
 		return statistics;
 	}
 	
