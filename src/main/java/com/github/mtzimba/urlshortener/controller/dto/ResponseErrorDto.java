@@ -1,6 +1,6 @@
 package com.github.mtzimba.urlshortener.controller.dto;
 
-import com.github.mtzimba.urlshortener.controller.ErroEnum;
+import com.github.mtzimba.urlshortener.controller.ErrorEnum;
 
 public class ResponseErrorDto {
 
@@ -8,7 +8,7 @@ public class ResponseErrorDto {
 	private String err_code;
 	private String description;
 	
-	public ResponseErrorDto(String alias, ErroEnum erro) {
+	public ResponseErrorDto(String alias, ErrorEnum erro) {
 		this.alias = alias;
 		this.err_code = erro.getCodigo();
 		this.description = erro.getDescricao();
