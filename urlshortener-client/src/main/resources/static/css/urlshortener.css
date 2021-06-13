@@ -1,0 +1,9 @@
+span {
+	cursor: pointer;
+	text-decoration: underline;
+	color: #337ab7;
+}
+
+.required{
+	border : 1px solid red;
+}

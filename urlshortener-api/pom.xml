@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.github.mtzimba</groupId>
-	<artifactId>urlshortener</artifactId>
+	<artifactId>urlshortenerapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>URL Shortener</name>
-	<description></description>
+	<name>urlshortener-api</name>
+	<description>URL Shortener - API</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

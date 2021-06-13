@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  redis:
+    image: "redis"
+    ports: 
+      - "6379:6379"
+  urlshortenerapi:
+    build: urlshortener-api/.
+    ports:
+      - "8080:8080"
+    depends_on:
+     - redis
+  urlshortenerclient:
+    build: urlshortener-client/.
+    ports:
+      - "8082:8082"
+    depends_on:
+     - urlshortenerapi

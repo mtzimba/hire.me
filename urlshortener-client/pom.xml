@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.github.mtzimba</groupId>
-	<artifactId>shortener</artifactId>
+	<artifactId>urlshortenerclient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>urlshortener-client</name>
-	<description>Demo project for Spring Boot</description>
+	<description>URL Shortener - Client</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
