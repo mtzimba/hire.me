@@ -1,19 +1,12 @@
-version: "3.9"
+version: '3.9'
 services:
+  redis:
+    image: "redis"
+    ports: 
+      - "6379:6379"
   app:
-    container_name: urlshortener
-    image: mtzimba/urlshortener
     build: .
-    links:
-      - redis
     ports:
       - "8080:8080"
-    volumes:
-      - ~/docker/redis:/redis-service/logs
-  redis:
-    container_name: redis
-    image: redis:lastet
-    build: ./redis
-    hostname: redis
-    ports:
-      - "6379:6379"
+    depends_on:
+     - redis
