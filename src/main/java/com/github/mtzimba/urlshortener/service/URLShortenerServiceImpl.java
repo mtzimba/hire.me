@@ -15,8 +15,11 @@ import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 
 @Service
-public class ShortenerServiceImpl implements ShortenerService {
+public class URLShortenerServiceImpl implements URLShortenerService {
 
+	private static final String URL = "URL";
+	private static final String RANKING = "RANKING";
+	
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
@@ -26,30 +29,30 @@ public class ShortenerServiceImpl implements ShortenerService {
 		String alias = "";
 		if (customAlias.isPresent()) {
 			alias = customAlias.get();
-			if (redisTemplate.hasKey(alias)) {
+			if (redisTemplate.opsForHash().hasKey(URL, alias)) {
 				throw new IllegalArgumentException(ErrorEnum.CUSTOM_ALIAS_ALREADY_EXISTS.name());
 			}
 		} else {
 			alias = Hashing.murmur3_32().hashString(url, Charsets.UTF_8).toString();
 		}
 		
-		redisTemplate.opsForHash().put("URL", alias, url);
+		redisTemplate.opsForHash().put(URL, alias, url);
 		return alias;
 	}
 
 	@Override
 	public String retrieve(String alias) {
-		if (!redisTemplate.opsForHash().hasKey("URL", alias)) {
+		if (!redisTemplate.opsForHash().hasKey(URL, alias)) {
 			throw new IllegalArgumentException(ErrorEnum.SHORTENED_URL_NOT_FOUND.name());
 		} 
-		redisTemplate.opsForZSet().incrementScore("RANK", alias, 1);
-		return (String) redisTemplate.opsForHash().get("URL", alias);
+		redisTemplate.opsForZSet().incrementScore(RANKING, alias, 1);
+		return (String) redisTemplate.opsForHash().get(URL, alias);
 	}
 
 	@Override
 	public List<String> getTopTenUrl() {
 		List<String> topTenUrls = new ArrayList<>();
-		Set<TypedTuple<String>> result = redisTemplate.opsForZSet().reverseRangeWithScores("RANK", 0, 9);
+		Set<TypedTuple<String>> result = redisTemplate.opsForZSet().reverseRangeWithScores(RANKING, 0, 9);
 		for (TypedTuple<String> t : result) {
 			topTenUrls.add(t.getValue());
 		}

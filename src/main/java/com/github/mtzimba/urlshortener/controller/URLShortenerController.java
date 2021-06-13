@@ -24,21 +24,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.github.mtzimba.urlshortener.controller.dto.ResponseDto;
 import com.github.mtzimba.urlshortener.controller.dto.ResponseErrorDto;
 import com.github.mtzimba.urlshortener.controller.dto.StatisticsDto;
-import com.github.mtzimba.urlshortener.service.ShortenerService;
+import com.github.mtzimba.urlshortener.service.URLShortenerService;
 
 /**
  * @author Matheus Cardoso
  */
 @RestController
-@RequestMapping("/")
-public class ShortenerController {
+@RequestMapping("/u")
+public class URLShortenerController {
 
-	final static Logger LOG = LoggerFactory.getLogger(ShortenerController.class);
+	final static Logger LOG = LoggerFactory.getLogger(URLShortenerController.class);
 	
 	@Autowired
-	private ShortenerService shortenerService;
+	private URLShortenerService shortenerService;
 	
-	@PutMapping("create")
+	@PutMapping("/")
 	public ResponseEntity<?> shorten(@RequestParam(value = "url") String url,
 			@RequestParam(value = "CUSTOM_ALIAS", required = false) Optional<String> customAlias,
 			UriComponentsBuilder uriBuilder) {
@@ -60,7 +60,7 @@ public class ShortenerController {
 		}
 	}
 
-	@GetMapping("u/{alias}")
+	@GetMapping("/{alias}")
 	public ResponseEntity<?> retrieve(@PathVariable("alias") String alias) {
 		try {
 			String url = shortenerService.retrieve(alias);
@@ -71,11 +71,14 @@ public class ShortenerController {
 		
 	}
 	
-	@GetMapping("u/")
+	@GetMapping("/")
 	public ResponseEntity<?> getTopTenUrl(UriComponentsBuilder uriBuilder) {
+		String baseURI = uriBuilder.path("/u/").build().toString();
+		
 		List<URI> urls = new ArrayList<>();
-		for (String alias : shortenerService.getTopTenUrl()) {
-			urls.add(uriBuilder.path("/u/{alias}").buildAndExpand(alias).toUri());
+		List<String> topTenUrl = shortenerService.getTopTenUrl();
+		for (String alias : topTenUrl) {
+			urls.add(URI.create(baseURI + alias));
 		}
 		return ResponseEntity.ok().body(urls);
 	}

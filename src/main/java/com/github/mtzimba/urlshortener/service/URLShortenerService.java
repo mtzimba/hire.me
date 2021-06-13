@@ -3,7 +3,7 @@ package com.github.mtzimba.urlshortener.service;
 import java.util.List;
 import java.util.Optional;
 
-public interface ShortenerService {
+public interface URLShortenerService {
 
 	
 	public String shorten(String url, Optional<String> customAlias);
