@@ -1,0 +1,11 @@
+title Shorten URL
+
+Client->+URLShortenerController: shorten(url,alias)
+URLShortenerController->+URLShortenerService: shorten(url,alias)
+alt alias is null
+    URLShortenerService->URLShortenerService: generateAlias()
+end
+URLShortenerService->+Redis-Urls: save(url, alias)
+Redis-Urls-->-URLShortenerService: shortenedURL
+URLShortenerService-->-URLShortenerController: shortenedURL
+URLShortenerController-->-Client: shortenedURL

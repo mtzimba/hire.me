@@ -1,0 +1,11 @@
+title Retrieve URL
+
+Client->+URLShortenerController: retrieve(alias)
+URLShortenerController->+URLShortenerService: retrieve(alias)
+alt hasAlias
+    URLShortenerService->+Redis-Urls: retrieve(alias)
+    Redis-Urls-->-URLShortenerService: originalURL
+    URLShortenerService->Redis-Ranking: incrementStore(alias)
+end
+URLShortenerService-->-URLShortenerController: originalURL
+URLShortenerController-->-Client: originalURL

@@ -1,0 +1,8 @@
+title List Top Ten URLs
+
+Client->+URLShortenerController: getTopTen()
+URLShortenerController->+URLShortenerService: getTopTen()
+URLShortenerService->+Redis-Ranking: getTopTen()
+Redis-Ranking-->-URLShortenerService: listTopTen
+URLShortenerService-->-URLShortenerController: listTopTen
+URLShortenerController-->-Client: listTopTen
