@@ -23,6 +23,13 @@ mvn clean package -DskipTests=true  (Obs: para os testes é necessário o redis ex
 2. Gerar as imagens e subir através do Docker  
 docker-compose up --build 
 
+
+### Diagramas
+
+![Short URL](http://shorturl.at/imuA6)  
+![Short URL](http://shorturl.at/gvB46)  
+![Short URL](http://shorturl.at/dfqtx)  
+
 ## Instruções Gerais
 
 1. *Clone* este repositório
