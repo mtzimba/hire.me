@@ -19,7 +19,7 @@ Commons Validator - Utilizada para validar as URLs
 Foram criados 2 projetos, um para a api e o outro para simular um cliente. Cada projeto tem seu Dockerfile para geração da sua imagem.  
 Para executar as aplicações são necessários os seguintes passos:
 1. Gerar o pacote de cada projeto, via maven  
-mvn clean package
+mvn clean package -DskipTests=true  (Obs: para os testes é necessário o redis executando)R
 2. Gerar as imagens e subir através do Docker  
 docker-compose up --build 
 

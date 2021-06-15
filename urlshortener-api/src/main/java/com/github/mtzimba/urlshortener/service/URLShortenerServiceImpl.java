@@ -20,6 +20,7 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 	private static final String URL = "URL";
 	private static final String RANKING = "RANKING";
 	
+	// TODO MELHORAR - Estudar por num Repository
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
