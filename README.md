@@ -26,9 +26,9 @@ docker-compose up --build
 
 ### Diagramas
 
-![Short URL](http://shorturl.at/imuA6)  
-![Short URL](http://shorturl.at/gvB46)  
-![Short URL](http://shorturl.at/dfqtx)  
+![alt text](https://raw.githubusercontent.com/mtzimba/hire.me/master/urlshortner-diagramas/Retrieve%20URL.png)  
+![Short URL](https://raw.githubusercontent.com/mtzimba/hire.me/master/urlshortner-diagramas/Shorten%20URL.png)  
+![Short URL](https://raw.githubusercontent.com/mtzimba/hire.me/master/urlshortner-diagramas/List%20Top%20Ten%20URLs.png)  
 
 ## Instruções Gerais
 

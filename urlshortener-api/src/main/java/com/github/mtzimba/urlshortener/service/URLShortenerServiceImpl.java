@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 	}
 
 	@Override
+	@Cacheable(value = "retrieve")
 	public String retrieve(String alias) {
 		if (!redisTemplate.opsForHash().hasKey(URL, alias)) {
 			throw new IllegalArgumentException(ErrorEnum.SHORTENED_URL_NOT_FOUND.name());
